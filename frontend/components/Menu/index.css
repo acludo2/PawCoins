@@ -1,0 +1,21 @@
+.menu {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .menu div {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu div span {
+    margin-left: 10px;
+  }
+  

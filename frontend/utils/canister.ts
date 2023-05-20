@@ -5,7 +5,6 @@
  * return the expected values by massaging any data necessary.
  */
 
-import { Principal } from "@dfinity/agent";
 
 import {
   Message,
@@ -38,52 +37,10 @@ export function getUserFromStorage(
   }
 }
 
-export async function getUserNameByPrincipal(principal: Principal) {
-  const icUserName = unwrap<string>(
-    await (await CanCan.actor).getUserNameByPrincipal(principal)
-  )!;
-  return icUserName;
-}
 
-export async function createUser(
-  userId: string,
-  principal?: Principal | null
-): Promise<ProfileInfoPlus> {
-  if (!principal) {
-    throw Error("trying to create user without principal");
-  }
-  const profile = unwrap<ProfileInfoPlus>(
-    await (await CanCan.actor).createProfile(userId, [])
-  );
-  if (profile) {
-    return profile;
-  } else {
-    throw Error("failed to create profile: " + JSON.stringify(profile));
-  }
-}
 
-export async function findOrCreateUser(
-  userId: string,
-  principal: Principal,
-  key: string
-): Promise<ProfileInfoPlus> {
-  const lsUSER = getUserFromStorage(undefined, key);
-  if (lsUSER !== undefined) {
-    return lsUSER;
-  }
 
-  const icUser = await getUserFromCanister(userId);
-  if (icUser !== null) {
-    return icUser;
-  } else {
-    try {
-      createUser(userId, principal);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-    throw Error("couldnt find or create user");
-  }
-}
+
 
 export async function isDropDay(): Promise<boolean> {
   return Boolean(unwrap<boolean>(await (await CanCan.actor).isDropDay()));
@@ -237,16 +194,6 @@ export async function getVideoPic(videoId: string): Promise<number[]> {
   }
 }
 
-export function getLocationCanisterPrincipal(location: Location): Principal {
-  const pattern = /(\.?((?:[a-z0-9]{5}-){4}[a-z0-9]{3})\..*)|(canisterId=([^$&]+))/;
-  const match = location.href.match(pattern);
-  if (!match) {
-    throw new Error("Failed to parse url containing canisterId");
-  }
-  const [, , canisterId] = match;
-  const canisterPrincipal = Principal.fromText(canisterId);
-  return canisterPrincipal;
-}
 
 export async function checkUsername(username: string): Promise<boolean> {
   return await (await CanCan.actor).checkUsernameAvailable(username);
@@ -280,3 +227,5 @@ export async function putAbuseFlagVideo(
     shouldFlag
   );
 }
+export { actorController };
+

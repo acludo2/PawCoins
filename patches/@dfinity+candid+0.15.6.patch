@@ -1,0 +1,88 @@
+diff --git a/node_modules/@dfinity/candid/lib/.DS_Store b/node_modules/@dfinity/candid/lib/.DS_Store
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/@dfinity/candid/lib/cjs/idl.js b/node_modules/@dfinity/candid/lib/cjs/idl.js
+index 72d71b1..d5f3261 100644
+--- a/node_modules/@dfinity/candid/lib/cjs/idl.js
++++ b/node_modules/@dfinity/candid/lib/cjs/idl.js
+@@ -1313,10 +1313,8 @@ exports.ServiceClass = ServiceClass;
+  * @returns {string}
+  */
+ function toReadableString(x) {
+-    const str = JSON.stringify(x, (_key, value) => typeof value === 'bigint' ? `BigInt(${value})` : value);
+-    return str && str.length > toReadableString_max
+-        ? str.substring(0, toReadableString_max - 3) + '...'
+-        : str;
++    return JSON.stringify(x, (_key, value) => typeof value === 'bigint' ? { type: 'bigint', value: value.toString() } : value);
++
+ }
+ /**
+  * Encode a array of values
+@@ -1335,14 +1333,23 @@ function encode(argTypes, args) {
+     const len = (0, leb128_1.lebEncode)(args.length);
+     const typs = (0, buffer_1.concat)(...argTypes.map(t => t.encodeType(typeTable)));
+     const vals = (0, buffer_1.concat)(...zipWith(argTypes, args, (t, x) => {
++        let newX
++        console.log("the x in the x 2",x)
++        if(x && x.ok){
++            newX = Number(x.ok)
++       }else if(typeof x === "bigint"){
++           newX=Number(x);
++       }else{
++           newX=x;
++       }
+         try {
+-            t.covariant(x);
++            t.covariant(newX);
+         }
+         catch (e) {
+             const err = new Error(e.message + '\n\n');
+             throw err;
+         }
+-        return t.encodeValue(x);
++        return t.encodeValue(newX);
+     }));
+     return (0, buffer_1.concat)(magic, table, len, typs, vals);
+ }
+diff --git a/node_modules/@dfinity/candid/lib/esm/idl.js b/node_modules/@dfinity/candid/lib/esm/idl.js
+index 7ceb2c2..3d62f71 100644
+--- a/node_modules/@dfinity/candid/lib/esm/idl.js
++++ b/node_modules/@dfinity/candid/lib/esm/idl.js
+@@ -1285,10 +1285,7 @@ export class ServiceClass extends ConstructType {
+  * @returns {string}
+  */
+ function toReadableString(x) {
+-    const str = JSON.stringify(x, (_key, value) => typeof value === 'bigint' ? `BigInt(${value})` : value);
+-    return str && str.length > toReadableString_max
+-        ? str.substring(0, toReadableString_max - 3) + '...'
+-        : str;
++   return JSON.stringify(x, (_key, value) => typeof value === 'bigint' ? { type: 'bigint', value: value.toString() } : value);
+ }
+ /**
+  * Encode a array of values
+@@ -1307,14 +1304,23 @@ export function encode(argTypes, args) {
+     const len = lebEncode(args.length);
+     const typs = concat(...argTypes.map(t => t.encodeType(typeTable)));
+     const vals = concat(...zipWith(argTypes, args, (t, x) => {
++        let newX
++        console.log("the x in the x 1",x)
++        if(x && x.ok){
++             newX = Number(x.ok)
++        }else if(typeof x === "bigint"){
++            newX=Number(x);
++        }else{
++            newX=x;
++        }
+         try {
+-            t.covariant(x);
++            t.covariant(newX);
+         }
+         catch (e) {
+             const err = new Error(e.message + '\n\n');
+             throw err;
+         }
+-        return t.encodeValue(x);
++        return t.encodeValue(newX);
+     }));
+     return concat(magic, table, len, typs, vals);
+ }

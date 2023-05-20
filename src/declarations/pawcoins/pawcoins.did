@@ -1,0 +1,135 @@
+type UpdateProfile = 
+ record {
+   name: text;
+   profilePic: blob;
+ };
+type Time = int;
+type Subaccount = blob;
+type Result_6 = 
+ variant {
+   err: text;
+   ok: CommentResponse;
+ };
+type Result_5 = 
+ variant {
+   err: text;
+   ok: nat;
+ };
+type Result_4 = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type Result_3 = 
+ variant {
+   err: text;
+   ok: vec CommentResponse;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: Proposal;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: record {e8s: nat64;};
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type ProposalResponse = 
+ record {
+   completed: bool;
+   description: text;
+   icp: nat;
+   icpWallet: principal;
+   id: nat;
+ };
+type ProposalProfile = 
+ record {
+   name: text;
+   profilePic: opt blob;
+ };
+type ProposalCall = 
+ record {
+   content: Content;
+   description: text;
+   icp: nat;
+ };
+type Proposal = 
+ record {
+   completed: bool;
+   content: Content;
+   description: text;
+   icp: nat;
+   icpWallet: principal;
+   id: nat;
+   owner: principal;
+ };
+type Profile = 
+ record {
+   badget: bool;
+   lastProposal: opt Time;
+   name: text;
+   profilePic: opt blob;
+   proposalsCompleted: nat;
+ };
+type PrincipalArray = vec principal;
+type Content = 
+ variant {
+   Image: blob;
+   Text: text;
+   Video: nat;
+ };
+type CommentResponse = 
+ record {
+   commenter: principal;
+   id: nat;
+   proposalId: nat;
+   "text": text;
+   timestamp: int;
+ };
+type Account = 
+ record {
+   owner: principal;
+   subaccount: opt Subaccount;
+ };
+service : {
+  addNewComment: (text, nat) -> (Result_6);
+  addNewProposal: (ProposalCall) -> (Result_5);
+  addProposalChunk: (nat, blob) -> (Result);
+  addProposalVideoChunk: (nat, vec nat8, nat) -> (Result_5);
+  airDrop: () -> (Result);
+  airDrop2: () -> (Result);
+  balanceOf: (Account) -> (nat) query;
+  bannProposal: (nat) -> (Result_4);
+  caller: () -> (text) query;
+  donateToProposal: (nat, nat) -> (Result);
+  getAllProposals: () -> (vec ProposalResponse) query;
+  getAllStudentsPrincipalTest: () -> (vec principal);
+  getCommentProfile: (text) -> (Profile) query;
+  getComments: (nat) -> (Result_3) query;
+  getContent: (nat) -> (Content) query;
+  getPawCoins: () -> (nat) query;
+  getProfile: () -> (Profile) query;
+  getProposal: (nat) -> (Result_2) query;
+  getProposalProfilePic: (nat) -> (opt ProposalProfile) query;
+  getStudents: () -> (PrincipalArray);
+  getVideoChunk: (nat, nat) -> (vec nat8) query;
+  name: () -> (text) query;
+  parseControllersFromCanisterStatusErrorIfCallerNotController: (text) ->
+   (vec principal);
+  pawBalance: () -> (Result_1);
+  session: () -> (Profile) query;
+  symbol: () -> (text) query;
+  toNat8: (Content) -> (vec nat8);
+  totalSupply: () -> (nat) query;
+  transFer: (principal) -> (Result);
+  transFerDonation: (principal, principal, nat) -> (Result);
+  transfer: (Account, Account, nat) -> (Result);
+  updateProfile: (UpdateProfile) -> (Profile);
+  verifyOwnership: (principal, principal) -> (bool);
+}

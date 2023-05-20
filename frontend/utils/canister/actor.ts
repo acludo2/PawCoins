@@ -1,28 +1,35 @@
 import { Actor, HttpAgent, Identity } from "@dfinity/agent";
-import {
-  idlFactory as CanCan_idl,
-  canisterId as CanCan_canister_id,
-} from "../../../.dfx/local/canisters/delivery";
 
-import _SERVICE from "./typings";
-
-import dfxConfig from "../../../dfx.json";
 
 const DFX_NETWORK = process.env.DFX_NETWORK || "local";
 const isLocalEnv = DFX_NETWORK === "local";
+
+
+import {
+  idlFactory,
+  canisterId
+} from '../../../src/declarations/pawcoins';
+// change the pathing from local to ic when deploying
+
+import dfxConfig from "../../../dfx.json";
+
 
 function getHost() {
   // Setting host to undefined will default to the window location 👍🏻
   return isLocalEnv ? dfxConfig.networks.local.bind : undefined;
 }
-
-const host = getHost();
+  let canisterCheck = isLocalEnv ?  "be2us-64aaa-aaaaa-qaabq-cai" : "sqehz-oaaaa-aaaap-qbgcq-cai"
+type T = any;
+///to deploy use the canisterid "sqehz-oaaaa-aaaap-qbgcq-cai" and the host down here also change th p
+//const host = "https://icp-api.io/"
+const host =   isLocalEnv? getHost():"https://icp-api.io/";
 
 function createActor(identity?: Identity) {
+  console.log("the host is",host)
   const agent = new HttpAgent({ host, identity });
-  const actor = Actor.createActor<_SERVICE>(CanCan_idl, {
+  const actor = Actor.createActor(idlFactory, {
     agent,
-    canisterId: CanCan_canister_id,
+    canisterId: canisterCheck,
   });
   return { actor, agent };
 }
@@ -33,7 +40,7 @@ function createActor(identity?: Identity) {
  * Identity, to ensure their Principal is passed to the backend.
  */
 class ActorController {
-  _actor: Promise<_SERVICE>;
+  _actor: Promise<T>;
   _isAuthenticated: boolean = false;
 
   constructor() {
@@ -43,9 +50,8 @@ class ActorController {
   async initBaseActor(identity?: Identity) {
     const { agent, actor } = createActor(identity);
     // The root key only has to be fetched for local development environments
-    if (isLocalEnv) {
-      await agent.fetchRootKey();
-    }
+    await agent.fetchRootKey();
+
     return actor;
   }
 

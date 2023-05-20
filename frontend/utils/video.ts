@@ -161,7 +161,7 @@ export function useUploadVideo({ userId }: { userId: string }) {
       console.time("Stored in");
       const video = await uploadVideo(userId, fileToUpload, caption,canister);
 
-      setCompletedVideo(video);
+     // setCompletedVideo(video);
       setReady(false);
       setFile(undefined);
       console.timeEnd("Stored in");

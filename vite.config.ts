@@ -12,7 +12,18 @@ interface CanisterIds {
   [key: string]: { [key in Network]: string }
 }
 
-let canisterIds: CanisterIds
+let canisterIds: CanisterIds = {
+  assets: {
+    ic: "sxfbn-dyaaa-aaaap-qbgca-cai",
+    local:""
+  },
+  "pawcoins": {
+    ic: "sqehz-oaaaa-aaaap-qbgcq-cai",
+    local:""
+  }
+};
+
+
 try {
   canisterIds = JSON.parse(
     fs
@@ -52,7 +63,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
 const canisterDefinitions = Object.entries(canisterIds).reduce(
   (acc, [key, val]) => ({
     ...acc,
-    [`process.env.${key.toUpperCase()}_CANISTER_ID`]: isDev
+    [`process.env.CANISTER_ID_${key.toUpperCase()}`]: isDev
       ? JSON.stringify(val.local)
       : JSON.stringify(val.ic),
   }),

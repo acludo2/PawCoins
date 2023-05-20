@@ -1,14 +1,16 @@
-import { Principal } from "@dfinity/agent";
 import { Optional } from "./canister";
+import { actorController } from "./canister";
 
 export * from "./video";
 export * from "./canister";
 
-export const KEY_LOCALSTORAGE_USER = `ic-cancan-user`;
+export const KEY_LOCALSTORAGE_USER = `pawy-user`;
 
 export const MAX_CHUNK_SIZE = 1024 * 500; // 500kb
 export const REWARDS_CHECK_INTERVAL = 60000;
 export const hashtagRegExp = /(?:\s|^)#[A-Za-z0-9\-._]+(?:\s|$)/gim;
+
+export const actor = actorController;
 
 export const encodeArrayBuffer = (file: ArrayBuffer): number[] =>
   Array.from(new Uint8Array(file));
@@ -73,20 +75,3 @@ export function textToColor(text: string): string {
 const ic0AppHostRegEx = /(?:(?<canisterId>.*)\.)?(?<subdomain>[^.]*)\.(?<domain>ic0\.app)$/;
 const localhostRegEx = /(?<canisterId>(?:\w{5}-){4}cai)\.[^.]*$/;
 
-// Detect canisterId from current URL
-export function getCanisterId(): Principal {
-  const loc = new URL(window.location.toString());
-  const hostName = loc.hostname;
-  const matchesIc0 = ic0AppHostRegEx.exec(hostName);
-  const matchesLocalhost = localhostRegEx.exec(hostName);
-
-  if (matchesIc0?.groups?.canisterId) {
-    return Principal.fromText(matchesIc0.groups.canisterId);
-  } else if (matchesLocalhost?.groups?.canisterId) {
-    return Principal.fromText(matchesLocalhost.groups.canisterId!);
-  } else if (loc.searchParams.get("canisterId")) {
-    return Principal.fromText(loc.searchParams.get("canisterId")!);
-  } else {
-    throw new Error("Could not find the canister ID.");
-  }
-}
