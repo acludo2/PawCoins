@@ -3,6 +3,15 @@
     "pawcoins": {
       "main": "dappcontest_backend/main.mo",
       "type": "motoko"
+    }, "internet_identity": {
+      "type": "custom",
+      "candid": "dappcontest_backend/internet_identity/internet_identity.did",
+      "wasm": "dappcontest_backend/internet_identity/internet_identity_dev.wasm",
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      }
     },
     "assets": {
       "dependencies": [
