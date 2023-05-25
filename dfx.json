@@ -1,12 +1,12 @@
 {
   "canisters": {
-    "delivery": {
-      "main": "canisters/main/main.mo",
+    "pawcoins": {
+      "main": "dappcontest_backend/main.mo",
       "type": "motoko"
     },
     "assets": {
       "dependencies": [
-        "delivery"
+        "pawcoins"
       ],
       "frontend": {
         "entrypoint": "dist/index.html"

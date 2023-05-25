@@ -19,8 +19,8 @@ const defaultOptions = {
   loginOptions: {
     identityProvider:
       process.env.DFX_NETWORK === "ic"
-        ? `http://localhost:8000?canisterId=${process.env.CANISTER_ID_INTERNET_IDENTITY}#authorize`:
-        "https://identity.ic0.app/#authorize",
+        ?  "https://identity.ic0.app/#authorize":
+        `http://localhost:8000?canisterId=${process.env.CANISTER_ID_INTERNET_IDENTITY}#authorize`,
   },
 };
 
@@ -96,7 +96,6 @@ export const useAuthClient = (options = defaultOptions) => {
  */
 export const AuthProvider = ({ children }) => {
   const auth = useAuthClient();
-
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 

@@ -12,6 +12,7 @@
     min-width: 500px;
     margin: 20px auto;
     color: #424242;
+    text-align:vertical;
 }
 
 .NewProposalCard label {

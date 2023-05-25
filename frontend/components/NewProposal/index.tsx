@@ -132,12 +132,19 @@ const onFileChange = (e) => {
   setFile(selectedFile);
 };
 
-const onSubmit = () => {
+const onSubmit = async () => {
     console.log("file",file);
   if (file) {
     uploadFileInChunks(file);
   } else {
+
+    const proposal = {
+      description,
+      icp,
+      content
+    }
     // Handle the case when text is submitted
+    await backendActor.addNewProposal(proposal);
   }
 };
 
@@ -156,15 +163,15 @@ const onSubmit = () => {
     <div className="NewProposalCard" >
       <h2>Create a New Proposal</h2>
       <label>
-        Description:
+        Description:{" "}
         <input type="text" name="description" placeholder="Enter description" onChange={e => setDescription(e.target.value)} />
       </label>
       <label>
-        ICP:
+        ICP:{" "}
         <input type="number" name="icp" min="0" value={icp} onChange={e => setIcp(Number(e.target.value))} />
       </label>
       <label>
-        Type:
+        Type:{" "}
         <select value={proposalType} onChange={e => setProposalType(e.target.value)}>
           <option value="Text">Text</option>
           <option value="Image">Image</option>
@@ -173,12 +180,12 @@ const onSubmit = () => {
       </label>
       {proposalType === "Text" ? (
         <label>
-          Text:
+          Text:{" "}
           <textarea name="text" value={content} onChange={e => setContent(e.target.value)} />
         </label>
       ) : (
         <label className="file-input">
-                Select a file:
+                Select a file:{" "}
         <input
         type="file"
         name="file"
