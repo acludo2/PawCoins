@@ -157,10 +157,8 @@ function App({setModal,setModalMsg,setFileLoader}) {
 
 
 useEffect(()=>{
-  console.log("hi")
     if(isAuthenticated){
      // getIsReady()
-     console.log("is auth",identity)
      setIsLoading(false)
      getIsReady()
 

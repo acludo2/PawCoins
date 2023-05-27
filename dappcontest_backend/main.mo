@@ -245,7 +245,7 @@ public type CommentResponse = {
       };
           switch(profiles.get(account)){
             case null{
-               let imgBlob:?Blob= ?profile.profilePic;
+              let imgBlob:?Blob= ?profile.profilePic;
               let newProfile:Profile ={
                   name=profile.name;
                   profilePic=imgBlob;
@@ -365,6 +365,15 @@ public type CommentResponse = {
     };
 
 
+
+    public shared(msg) func addPawCoins(){
+       let newAccount:Account.Account = {
+                            owner=msg.caller;
+                            subaccount=null;
+                        };
+                        _airDrop(newAccount);
+
+    };
 
 
     public shared query func getVideoChunk(proposalId:Nat,chunkId:Nat):async [Nat8]{

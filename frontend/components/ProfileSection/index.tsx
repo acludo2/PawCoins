@@ -41,7 +41,7 @@ function ProfileComponent({ setIsLoading, loading,profile,setProfile,icpBalance,
             setIsLoading(true);
         }
         console.log("yo",profile)
-        if(profile && profile.profilePic){
+        if(profile && profile.profilePic && profile.profilePic[0] !== (null || undefined) ){
             let image = new Uint8Array(profile.profilePic[0]);
             let blob = new Blob([image]);
             let reader = new FileReader();
@@ -96,7 +96,7 @@ function ProfileComponent({ setIsLoading, loading,profile,setProfile,icpBalance,
             <h3>{"Pawcoins "+pawCoins}</h3>
             <div className="info-row">
                 <FontAwesomeIcon className="fa-icon" icon={faUser} />
-                <span>{`Proposals Completed: ${profile && profile.proposalsCompleted}`}</span>
+                <span>{`Proposals Completed: ${profile && profile.proposalsCompleted?profile.proposalsCompleted:0}`}</span>
             </div>
             <div className="info-row">
                 <FontAwesomeIcon className="fa-icon" icon={faCalendar} />

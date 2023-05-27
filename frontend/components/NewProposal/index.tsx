@@ -141,7 +141,7 @@ const onSubmit = async () => {
     const proposal = {
       description,
       icp,
-      content
+      content:{"Text":content}
     }
     // Handle the case when text is submitted
     await backendActor.addNewProposal(proposal);
@@ -167,11 +167,11 @@ const onSubmit = async () => {
         <input type="text" name="description" placeholder="Enter description" onChange={e => setDescription(e.target.value)} />
       </label>
       <label>
-        ICP:{" "}
-        <input type="number" name="icp" min="0" value={icp} onChange={e => setIcp(Number(e.target.value))} />
+        ICP:<br></br>
+        <input type="number" name="icp" min="0" placeholder={"0"} onChange={e => setIcp(Number(e.target.value))} />
       </label>
       <label>
-        Type:{" "}
+        Type:<br></br>
         <select value={proposalType} onChange={e => setProposalType(e.target.value)}>
           <option value="Text">Text</option>
           <option value="Image">Image</option>
@@ -180,7 +180,7 @@ const onSubmit = async () => {
       </label>
       {proposalType === "Text" ? (
         <label>
-          Text:{" "}
+          Text:<br></br>
           <textarea name="text" value={content} onChange={e => setContent(e.target.value)} />
         </label>
       ) : (

@@ -16,7 +16,7 @@ import './index.css';
 
 
 const CommenterProfile = ({ commenter }) => {
-    const { backendActor,isAuthenticated } = useAuth();
+    const { backendActor,isAuthenticated,identity } = useAuth();
     const [profile, setProfile] = useState(null);
     const [profilePic, setProfilePic] = useState(null);
 
@@ -67,11 +67,12 @@ const CommenterProfile = ({ commenter }) => {
 };
 
 function Comments({ proposalId }) {
-    const { backendActor,isAuthenticated } = useAuth();
+    const { backendActor,isAuthenticated,identity } = useAuth();
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
+        console.log("comments",isAuthenticated)
         async function loadComments() {
             try {
                 const fetchedComments = await backendActor.getComments(Number(proposalId));
@@ -184,7 +185,6 @@ const ProposalPage = () => {
 
     useEffect(() => {
         if (content) {
-            console.log("content",content)
             if ('Image' in content) {
                 let image = new Uint8Array(content.Image);
                 let blob = new Blob([image], { type: 'image/png' });

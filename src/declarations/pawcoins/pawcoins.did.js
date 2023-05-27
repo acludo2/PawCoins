@@ -70,6 +70,7 @@ export const idlFactory = ({ IDL }) => {
   return IDL.Service({
     'addNewComment' : IDL.Func([IDL.Text, IDL.Nat], [Result_6], []),
     'addNewProposal' : IDL.Func([ProposalCall], [Result_5], []),
+    'addPawCoins' : IDL.Func([], [], ['oneway']),
     'addProposalChunk' : IDL.Func([IDL.Nat, IDL.Vec(IDL.Nat8)], [Result], []),
     'addProposalVideoChunk' : IDL.Func(
         [IDL.Nat, IDL.Vec(IDL.Nat8), IDL.Nat],

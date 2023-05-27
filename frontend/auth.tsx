@@ -40,6 +40,7 @@ export const useAuthClient = (options = defaultOptions) => {
 
   useEffect(() => {
     // Initialize AuthClient
+    console.log("initizalising the client",canisterId)
     AuthClient.create(options.createOptions).then(async (client) => {
       updateClient(client);
     });

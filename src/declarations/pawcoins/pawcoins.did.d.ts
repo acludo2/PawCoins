@@ -71,6 +71,7 @@ export interface UpdateProfile {
 export interface _SERVICE {
   'addNewComment' : ActorMethod<[string, bigint], Result_6>,
   'addNewProposal' : ActorMethod<[ProposalCall], Result_5>,
+  'addPawCoins' : ActorMethod<[], undefined>,
   'addProposalChunk' : ActorMethod<[bigint, Uint8Array | number[]], Result>,
   'addProposalVideoChunk' : ActorMethod<
     [bigint, Uint8Array | number[], bigint],

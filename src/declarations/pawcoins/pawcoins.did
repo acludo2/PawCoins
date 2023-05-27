@@ -100,6 +100,7 @@ type Account =
 service : {
   addNewComment: (text, nat) -> (Result_6);
   addNewProposal: (ProposalCall) -> (Result_5);
+  addPawCoins: () -> () oneway;
   addProposalChunk: (nat, blob) -> (Result);
   addProposalVideoChunk: (nat, vec nat8, nat) -> (Result_5);
   airDrop: () -> (Result);

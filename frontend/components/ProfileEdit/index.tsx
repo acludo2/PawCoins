@@ -33,10 +33,10 @@ const ProfileForm = ({ currentProfile, onUpdate,onFileChange,setProfile }) => {
         event.preventDefault();
         onUpdate({name:currentProfile.name,profilePic:currentProfile.profilePic});
     };
-   // console.log("current Profile",currentProfile,c)
+   console.log("current Profile",currentProfile && currentProfile.profilePic && currentProfile.profilePic[0])
     return (
         <form onSubmit={handleSubmit}>
-          { currentProfile && currentProfile.name === "pawy" && <h2>Update your profile to receive 100 pawcoins!!</h2>}
+          { currentProfile && currentProfile.profilePic && currentProfile.profilePic[0] === undefined? <h2>Update your profile to receive 100 pawcoins!!</h2>:null}
         <h2>Edit Profile</h2>
        <label><FontAwesomeIcon icon={faUser} /> Name</label>
        <input
